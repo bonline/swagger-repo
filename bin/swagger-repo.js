@@ -46,8 +46,14 @@ program
     const config = api.readConfig();
 
     const spec = api.bundle({ ...options, verbose: true });
+    const crm = api.bundle({ ...options, ...{mainFile: 'spec/crm.yaml'}, verbose: true });
+    const ledger = api.bundle({ ...options, ...{mainFile: 'spec/ledger.yaml'}, verbose: true });
     const json = api.stringify(spec);
+    const crm_json = api.stringify(crm);
+    const ledger_json = api.stringify(ledger);
     const yaml = api.stringify(spec, { yaml: true });
+    const crm_yaml = api.stringify(crm, { yaml: true });
+    const ledger_yaml = api.stringify(ledger, { yaml: true });
     const html = api.compileIndexPage();
 
     const outDir = options.outdir || 'web_deploy';
@@ -70,6 +76,10 @@ program
     }
     writeAndLog(path.join(outDir, 'openapi.json'), json);
     writeAndLog(path.join(outDir, 'openapi.yaml'), yaml);
+    writeAndLog(path.join(outDir, 'crm.json'), crm_json);
+    writeAndLog(path.join(outDir, 'crm.yaml'), crm_yaml);
+    writeAndLog(path.join(outDir, 'ledger.json'), ledger_json);
+    writeAndLog(path.join(outDir, 'ledger.yaml'), ledger_yaml);
     writeAndLog(path.join(outDir, 'index.html'), html);
   });
 
